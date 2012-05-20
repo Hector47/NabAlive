@@ -26,6 +26,7 @@ public class AmbientPacket extends BasePacket {
     public final static byte Service_AirQuality = 7;
     public final static byte Service_Nose = 8;
     public final static byte Service_BottomLed = 9;
+    public final static byte SeepStatus = 0x0b;
     public final static byte Service_TaiChi = 0x0e;
 
     private final ChannelBuffer channelBuffer = ChannelBuffers.dynamicBuffer();

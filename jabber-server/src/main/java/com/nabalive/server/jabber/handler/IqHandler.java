@@ -1,6 +1,7 @@
 package com.nabalive.server.jabber.handler;
 
 import com.nabalive.common.server.Event;
+import com.nabalive.server.jabber.packet.AmbientPacket;
 import com.nabalive.server.jabber.Status;
 import com.nabalive.server.jabber.util.Jid;
 import org.jboss.netty.channel.ChannelHandlerContext;
@@ -46,10 +47,19 @@ public class IqHandler extends JabberBaseHandler {
             String reply = "<iq id='" + id + "' type='result' from='" + to + "'><session xmlns='urn:ietf:params:xml:ns:xmpp-session'/></iq>";
             write(e.getChannel(), reply);
         } else if (message.contains("<query xmlns=\"violet:iq:sources\"><packet xmlns=\"violet:packet\" format=\"1.0\"/></query>")) {
+        
+            AmbientPacket packet = new AmbientPacket();
+            packet.add(AmbientPacket.MoveLeftEar, 7);
+            packet.add(AmbientPacket.MoveRightEar, 9);            
+            packet.add(AmbientPacket.Service_EMail, 3);
+            packet.add(AmbientPacket.Service_Weather, 0);
+            packet.add(AmbientPacket.SeepStatus, 1);
+            packet.add(AmbientPacket.Service_TaiChi, 255);
+            
             String reply = "<iq from='net.violet.platform@xmpp.nabaztag.com/sources'" +
                     "to='" + from + "' id='" + id + "' type='result'>" +
                     "<query xmlns='violet:iq:sources'>" +
-                    "<packet xmlns='violet:packet' format='1.0' ttl='604800'>fwQAAAx////+BAAFAA7/CAALAAABAP8=</packet>" +
+                    "<packet xmlns='violet:packet' format='1.0' ttl='604800'>" + packet.getBase64() + "</packet>" +
                     "</query>" +
                     "</iq>";
             write(e.getChannel(), reply);
